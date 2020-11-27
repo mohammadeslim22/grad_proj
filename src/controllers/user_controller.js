@@ -37,11 +37,10 @@ module.exports = {
             data[key] = req.body[key]
         }
         user.update(data)
-
         if (!user) {
             res.json(notfound)
         } else {
-
+            res.json(updated)
         }
 
     },

@@ -13,13 +13,9 @@ module.exports = sequelize.define("Invoice", {
     },
     userId: {
         type: Sequelize.INTEGER(11),
-         allowNull: false,
-
-      },
-      carTransaction:{
-        type: Sequelize.INTEGER(11),
         allowNull: false,
-      },
+
+    },
     carNumber: {
         type: Sequelize.STRING(10),
         allowNull: false,
@@ -30,6 +26,15 @@ module.exports = sequelize.define("Invoice", {
         type: Sequelize.DOUBLE,
     },
     InvoiceHourNumber: {
+        type: Sequelize.DOUBLE(10),
+        allowNull: false,
+
+    },
+    totalHours: {
+        type: Sequelize.DOUBLE(10),
+        allowNull: false,
+
+    }, carsTransactionId: {
         type: Sequelize.DOUBLE(10),
         allowNull: false,
 

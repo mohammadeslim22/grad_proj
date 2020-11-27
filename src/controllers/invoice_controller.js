@@ -9,9 +9,10 @@ module.exports = {
             carNumber: req.body.carNumber,
             invoiceAmount: req.body.invoiceAmount,
             InvoiceHourNumber: req.body.InvoiceHourNumber,
-            carTransaction: req.body.carTransaction,
             userId: req.body.userId,
-            carId: req.body.carId
+            carId: req.body.carId,
+            totalHours:req.body.totalHours,
+            carsTransactionId:req.body.carTransactionId
         }).catch()
         if (!invoice) {
             return res.json(false)
@@ -32,7 +33,16 @@ module.exports = {
     },
     index: async function (req, res, next) {
         try {
-            const invoices = await Invoice.findAll()
+            const { sortBy, sortDesc, page, itemsPerPage } = req.query
+            filter = {}
+            if (parseInt(itemsPerPage) > 0) {
+                filter = {
+                    limit: parseInt(itemsPerPage),
+                    offset: (parseInt(page) - 1) * parseInt(itemsPerPage),
+                };
+            }
+            // const invoices = await Invoice.findAll()
+            const invoices = await Invoice.findAndCountAll(filter)
 
             if (!invoices) {
 

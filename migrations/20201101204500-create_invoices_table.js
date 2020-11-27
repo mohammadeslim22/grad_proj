@@ -2,31 +2,26 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-   return  queryInterface.createTable("invoices", {
+    return queryInterface.createTable("invoices", {
       id: {
         type: Sequelize.INTEGER(11),
         allowNull: false,
         autoIncrement: true,
         primaryKey: true
       },
-      car_id:{
+      car_id: {
         type: Sequelize.INTEGER(11),
         allowNull: false,
-  
+
       },
       user_id: {
         type: Sequelize.INTEGER(11),
-         allowNull: false,
-
-      },
-      car_transaction:{
-        type: Sequelize.INTEGER(11),
         allowNull: false,
+
       },
       car_number: {
         type: Sequelize.STRING(10),
         allowNull: false,
-        unique: true
       },
 
       invoice_amount: {

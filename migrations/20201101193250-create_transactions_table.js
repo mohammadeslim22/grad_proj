@@ -14,6 +14,11 @@ module.exports = {
         allowNull: false,
 
       },
+      car_id: {
+        type: Sequelize.INTEGER(11),
+        allowNull: false,
+
+      },
       user_id: {
         type: Sequelize.INTEGER(11),
         allowNull: false,
@@ -22,7 +27,6 @@ module.exports = {
       car_number: {
         type: Sequelize.STRING(10),
         allowNull: false,
-        unique: true
       },
       user_id: {
         type: Sequelize.INTEGER(11),

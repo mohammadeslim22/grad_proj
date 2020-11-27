@@ -20,7 +20,7 @@ router.post(`/users/login`,AuthController.login)
 resource(CarController, router,'cars');
 resource(UsersController, router,'users');
 resource(TransactionsController, router,'transactions');
-resource(InvoiceController, router,'invoice');
+resource(InvoiceController, router,'invoices');
 resource(SettingController, router,'settings');
 
 module.exports = router;

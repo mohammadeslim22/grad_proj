@@ -5,5 +5,6 @@ const sequelize = new Sequelize("database_development","root","",{
     dialect:"mysql",
     operatorsAliases:false
 });
+
 module.exports = sequelize;
 global.sequelize = sequelize;

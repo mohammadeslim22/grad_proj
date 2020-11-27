@@ -13,7 +13,7 @@ exports.verifyToken = function (req, res, next) {
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
         if (err) return res.sendStatus(401)
-        console.log(1,user)
+        // console.log(1,user)
         req.user = user
         next()
     })
