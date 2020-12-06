@@ -19,7 +19,7 @@ module.exports = sequelize.define("Invoice", {
     carNumber: {
         type: Sequelize.STRING(10),
         allowNull: false,
-        unique: true
+        
     },
 
     invoiceAmount: {

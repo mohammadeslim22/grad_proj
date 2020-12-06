@@ -17,6 +17,8 @@ resource = (controller, router,resource) => {
    
 }
 router.post(`/users/login`,AuthController.login)
+router.post(`/settings`, SettingController.update);
+
 resource(CarController, router,'cars');
 resource(UsersController, router,'users');
 resource(TransactionsController, router,'transactions');

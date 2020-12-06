@@ -7,35 +7,20 @@ module.exports = sequelize.define("Setting", {
         autoIncrement: true,
         primaryKey: true
     },
-    organizationName: {
+    Name: {
         type: Sequelize.STRING(50),
         allowNull: true,
 
     },
-    organizationAddress: {
+    SettingCode: {
         type: Sequelize.STRING(100),
-        allowNull: true,
+        allowNull: false,
 
     }, 
     
-    organizationTRN: {
-        type: Sequelize.STRING(20),
-        allowNull: true,
+    value: {
+        type: Sequelize.STRING(50),
+        allowNull: false,
 
-    }, 
-
-    organizationPhone: {
-        type: Sequelize.STRING(10),
-        allowNull: true,
-    }, 
-
-    organizationMobile: {
-        type: Sequelize.STRING(10),
-        allowNull: true,
-    }, 
-    
-    hourRate: {
-        type: Sequelize.DOUBLE(10),
-        allowNull: true,
     },
 }, {underscored: true})

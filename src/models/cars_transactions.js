@@ -10,12 +10,10 @@ module.exports = sequelize.define("cars_transactions", {
     carNumber: {
         type: Sequelize.STRING(10),
         allowNull: false,
-        unique: true
     },
     carId: {
         type: Sequelize.STRING(10),
         allowNull: false,
-        
     },
     userId: {
         type: Sequelize.INTEGER(11),

@@ -5,8 +5,10 @@ module.exports = async () => {
     const Invoice = require("./models/invoice");
     User.hasMany(CarTransaction);
     User.hasMany(Invoice);
+    Car.hasMany(CarTransaction,{
+        foreignKey: 'carId'
+      });
     CarTransaction.belongsTo(Car)
-    Car.hasMany(CarTransaction);
     User.hasMany(Invoice);
     Car.hasMany(Invoice);
     CarTransaction.belongsTo(User)

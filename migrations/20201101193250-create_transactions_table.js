@@ -12,13 +12,11 @@ module.exports = {
       car_id: {
         type: Sequelize.INTEGER(11),
         allowNull: false,
-
       },
-      car_id: {
-        type: Sequelize.INTEGER(11),
-        allowNull: false,
-
-      },
+      // car_id: {
+      //   type: Sequelize.INTEGER(11),
+      //   allowNull: false,
+      // },
       user_id: {
         type: Sequelize.INTEGER(11),
         allowNull: false,

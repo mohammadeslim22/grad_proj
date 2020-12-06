@@ -1,10 +1,9 @@
 const resource = (data) => {
   return {
       id: data.id,
-      carNumber:data.carNumber,
+      carNumber:data.car_number,
       status:data.status,
-      last_Time_entry:data.TransactionDate,
-      cars_transactions:data.cars_transactions
+      last_Time_entry:new Date(data.transaction_time).toLocaleString(),
     
   };
 }
@@ -15,9 +14,9 @@ const collection = (arr) => {
 }
 module.exports = function (response, model_data) {
   res_data = {};
-  if (model_data.count) {
-    res_data = collection(model_data.rows);
-    res_data.count = model_data.count
+  if (model_data) {
+    res_data = collection(model_data);
+     res_data.count = model_data.count
 
   }
   // if (Array.isArray(model_data)) {

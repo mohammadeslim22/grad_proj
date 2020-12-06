@@ -9,36 +9,19 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true
       },
-      organization_name: {
+      name: {
+        type: Sequelize.STRING(50),
+        allowNull: true,
+      },
+      setting_code:{
+        type: Sequelize.STRING(100),
+        allowNull: true,
+        unique:true
+      },
+      value: {
         type: Sequelize.STRING(50),
         allowNull: true,
 
-      },
-      organization_address: {
-        type: Sequelize.STRING(100),
-        allowNull: true,
-
-      },
-
-      organization_trn: {
-        type: Sequelize.STRING(20),
-        allowNull: true,
-
-      },
-
-      organization_phone: {
-        type: Sequelize.STRING(10),
-        allowNull: true,
-      },
-
-      organization_mobile: {
-        type: Sequelize.STRING(10),
-        allowNull: true,
-      },
-
-      hour_hate: {
-        type: Sequelize.DOUBLE,
-        allowNull: true,
       },
       created_at: Sequelize.DATE,
       updated_at: Sequelize.DATE,

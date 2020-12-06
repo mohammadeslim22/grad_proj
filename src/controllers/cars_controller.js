@@ -1,6 +1,9 @@
 const Car = require("../models/cars");
 const CarTransaction = require("../models/cars_transactions");
 const CarResource = require("../resources/car_resource");
+const CarResourceLastEntry = require("../resources/car_resourc_last_entry");
+const Invoice = require("../models/invoice");
+
 const Sequelize = require('sequelize')
 function WithoutTime() {
     var date = new Date(Date.now());
@@ -36,39 +39,23 @@ module.exports = {
 
     index: async function (req, res, next) {
         try {
-            const { sortBy, sortDesc, page, itemsPerPage, exist } = req.query
 
+            const { sortBy, sortDesc, page, itemsPerPage, exist } = req.query
+            const count = await Car.count()
             if (parseInt(exist) == 0) {
                 console.log(itemsPerPage)
-                filter = {}
+                limit = 0;
+                offset = 0;
                 if (parseInt(itemsPerPage) > 0) {
-                    filter = {
-                        limit: parseInt(itemsPerPage),
-                        offset: (parseInt(page) - 1) * parseInt(itemsPerPage),
-                    };
+                    limit = parseInt(itemsPerPage);
+                    offset = (parseInt(page) - 1) * parseInt(itemsPerPage);
                 }
-                // const cars = await Car.findAndCountAll({
-                //     include: [{
-                //         model: CarTransaction,
-                //         attributes: ["transaction_time", "createdAt"],
-                //         separate: true,
-                //         limit: 1,
-                //         where: {
-                //             transaction_type: 0,
-                //             transaction_time: {
-                //                 gte: WithoutTime()
-                //             }
-                //         }
-                //         //  order: [[CarTransaction, 'transaction_time', 'DESC']]
-
-                //         //  order: ['createdAt', 'DESC']
-                //     }],
-                //     //   order: [[CarTransaction, 'transaction_time', 'DESC']]
-                // })
-                let rowCars = await sequelize.query("select * from cars join cars_transactions on cars.id = cars_transactions.car_id where cars_transactions.transaction_time > CURDATE()")
+                let rowCars = await sequelize.query("select * from cars join cars_transactions on cars.id = cars_transactions.car_id where cars_transactions.transaction_time > CURDATE() AND cars_transactions.transaction_type=0 limit " + `${offset}` + " ," + `${limit}`)
 
                 // const cars = await Car.findAll()
                 console.log(rowCars[1])
+
+                rowCars[1].count = count
                 if (!rowCars) {
 
                 } else {
@@ -78,34 +65,40 @@ module.exports = {
 
             } else {
                 console.log(itemsPerPage)
-                filter = {}
+                limit = 0;
+                offset = 0
                 if (parseInt(itemsPerPage) > 0) {
-                    filter = {
-                        limit: parseInt(itemsPerPage),
-                        offset: (parseInt(page) - 1) * parseInt(itemsPerPage),
-                    };
+                    //     filter = {
+                    // separated:true,
+                    limit = parseInt(itemsPerPage);
+                    offset = (parseInt(page) - 1) * parseInt(itemsPerPage);
+                    // };
                 }
-                const cars = await Car.findAndCountAll({
-                    filter,
+                let cars = await CarTransaction.findAll({
+                    limit: limit,
+                    offset: offset,
+                    group: ["carId"],
+                    attributes: [[sequelize.fn('MAX', sequelize.col('transaction_time')), "time"], "carId"],
                     include: [{
-                        model: CarTransaction,
-                        attributes: ["transaction_time", "createdAt"],
-                        separate: true,
-                        limit: 1,
-
-                        order: [[{ model: CarTransaction, as: 'CarTransaction' }, 'transaction_time', 'DESC']]
-
-                        //  order: ['createdAt', 'DESC']
+                        model: Car,
+                        group: ["id"],
+                        include:
+                        {
+                            model: Invoice,
+                            group: ["carId"],
+                            separate: true,
+                            attributes: [[sequelize.fn('SUM', sequelize.col('invoice_amount')), "sumInvoiceAmount"]],
+                        }
                     }],
-                    //   order: [[CarTransaction, 'transaction_time', 'DESC']]
                 })
-
-                // const cars = await Car.findAll()
-                // console.log(cars)
+                // const count = await Car.count()
+                cars.count = count
+                console.log(cars)
                 if (!cars) {
 
                 } else {
-                    return CarResource(res, cars);
+                    //  return res.json(cars)
+                    return CarResourceLastEntry(res, cars);
                 }
 
 

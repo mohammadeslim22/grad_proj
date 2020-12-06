@@ -4,7 +4,7 @@ const resource = (data) => {
     carNumber: data.carNumber,
     userId: data.userId,
     transaction_Time: new Date(data.transaction_time).toLocaleString(),
-    transactionType: data.transactionType,
+    transactionType:`${data.transactionType}`==0?"Entry":"Leaving",
     
   };
 }
