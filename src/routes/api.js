@@ -12,7 +12,7 @@ resource = (controller, router,resource) => {
     router.get(`/${resource}/`, controller.index);
     router.get(`/${resource}/:id`, controller.show);
     router.post(`/${resource}/`, controller.store);
-    router.put(`/${resource}/:id`, controller.update);
+    router.post(`/${resource}/:id`, controller.update);
     router.delete(`/${resource}/:id`, controller.delete);
    
 }

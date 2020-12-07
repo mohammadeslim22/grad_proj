@@ -32,6 +32,16 @@ module.exports = sequelize.define("User", {
     role:{
         type:Sequelize.INTEGER(1),
         allowNull: false,
-    }
+    },
+    firstName: {
+        type: Sequelize.STRING(50),
+        allowNull: true,
+
+    },
+    lastName: {
+        type: Sequelize.STRING(50),
+        allowNull: true,
+
+    },
 
 }, {underscored: true})

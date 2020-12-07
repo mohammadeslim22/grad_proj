@@ -5,7 +5,9 @@ const resource = (data) => {
         password:data.empPassword,
         empName: data.empName,
         address: data.empAddress,
-        role:data.role
+        role:data.role,
+        firstName:data.firstName,
+        lastName:data.lastName
     };
 }
 const collection = (arr) => {

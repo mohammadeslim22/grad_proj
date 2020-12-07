@@ -31,18 +31,20 @@ module.exports = {
 
     },
     update: async function (req, res, next) {
-        const user = await User.findOne({ id: req.body.id })
-        const data = {}
-        for (key in req.body) {
-            data[key] = req.body[key]
-        }
-        user.update(data)
-        if (!user) {
-            res.json(notfound)
-        } else {
-            res.json(updated)
-        }
 
+        // const user = await User.findOne({where: {id: req.body.id} })
+       await User.update({ empUserName: req.body.empUserName, empName: req.body.empName, empAddress: req.body.empAddress, firstName: req.body.firstName, lastName: req.body.lastName }, {
+            where: {
+                id: req.body.id
+            }
+        });
+        // user.update(req.data)
+        // if (!user) {
+        //     res.json(notfound)
+        // } else {
+        //     res.json(user)
+        // }
+        return res.json(true)
     },
     delete: function (req, res, next) {
 

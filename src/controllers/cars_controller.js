@@ -50,8 +50,8 @@ module.exports = {
                     limit = parseInt(itemsPerPage);
                     offset = (parseInt(page) - 1) * parseInt(itemsPerPage);
                 }
-                let rowCars = await sequelize.query("select * from cars join cars_transactions on cars.id = cars_transactions.car_id where cars_transactions.transaction_time > CURDATE() AND cars_transactions.transaction_type=0 limit " + `${offset}` + " ," + `${limit}`)
-
+                //let rowCars = await sequelize.query("select * from cars join cars_transactions on cars.id = cars_transactions.car_id where cars_transactions.transaction_time > CURDATE() AND cars_transactions.transaction_type=0 limit " + `${offset}` + " ," + `${limit}`)
+                let rowCars = await sequelize.query("select * from cars join cars_transactions t on cars.id = t.car_id where t.id in ( select Max(id) from cars_transactions  GROUP by car_id) AND t.transaction_type=0 limit " + `${offset}` + " ," + `${limit}`)
                 // const cars = await Car.findAll()
                 console.log(rowCars[1])
 
