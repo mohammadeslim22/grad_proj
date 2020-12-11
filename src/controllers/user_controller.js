@@ -17,7 +17,9 @@ module.exports = {
                 empPassword: hashedPassword,
                 empName: req.body.empName,
                 empAddress: req.body.empAddress,
-                role: req.body.role
+                role: req.body.role,
+                firstName:req.body.firstName,
+                lastName:req.body.lastName
 
             }).catch()
             if (!user) {
