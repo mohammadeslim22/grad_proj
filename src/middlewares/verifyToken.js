@@ -15,6 +15,7 @@ exports.verifyToken = function (req, res, next) {
         if (err) return res.sendStatus(401)
         // console.log(1,user)
         req.user = user
+        res
         next()
     })
 }

@@ -11,7 +11,7 @@ app.set('view engine', 'pug');
 app.set("views", path.resolve('./src/views'))
 var cors = require('cors')
 app.use(cors({
-    origin: 'http://localhost:8080',
+    origin: 'http://localhost:8081',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }))
 app.use(bodyParser.urlencoded({ extended: true }));
