@@ -61,7 +61,6 @@ module.exports = {
                     if(!entryTransaction){
                         return res.json("car_notFounded")
                     }
-                    
                     console.log(entryTransaction.transaction_time)
                     console.log(transaction.transaction_time)
                     var difference = transaction.transaction_time - entryTransaction.transaction_time;
