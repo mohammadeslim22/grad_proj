@@ -6,6 +6,8 @@ const TransactionsController = require('../controllers/transaction_controller')
 const InvoiceController = require('../controllers/invoice_controller')
 const SettingController = require('../controllers/setting_controller')
 const AuthController = require('../controllers/auth_controller')
+const StatisticsController = require('../controllers/statistics')
+
 
 resource = (controller, router,resource) => {
     
@@ -16,9 +18,9 @@ resource = (controller, router,resource) => {
     router.delete(`/${resource}/:id`, controller.delete);
    
 }
-router.post(`/users/login`,AuthController.login)
+router.post(`/users/login`,AuthController.login);
 router.post(`/settings`, SettingController.update);
-
+router.get(`/statistics`,StatisticsController.index);
 resource(CarController, router,'cars');
 resource(UsersController, router,'users');
 resource(TransactionsController, router,'transactions');

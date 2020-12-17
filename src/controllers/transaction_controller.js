@@ -58,6 +58,9 @@ module.exports = {
                         },
                         order: [['createdAt', 'DESC']]
                     }).catch(catchFunc)
+                    if(!entryTransaction){
+                        return res.json("car_notFounded")
+                    }
                     console.log(entryTransaction.transaction_time)
                     console.log(transaction.transaction_time)
                     var difference = transaction.transaction_time - entryTransaction.transaction_time;
@@ -74,6 +77,7 @@ module.exports = {
                         totalHours: hoursDifference,
                         carsTransactionId: transaction.id
                     }).catch(catchFunc)
+
                 }
             }
             return res.json(transaction);
