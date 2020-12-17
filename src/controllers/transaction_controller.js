@@ -62,6 +62,7 @@ module.exports = {
                         return res.json("car_notFounded")
                     }
                     console.log(entryTransaction.transaction_time)
+                    
                     console.log(transaction.transaction_time)
                     var difference = transaction.transaction_time - entryTransaction.transaction_time;
                     var hoursDifference = Math.floor(difference / 1000 / 60 / 60);
