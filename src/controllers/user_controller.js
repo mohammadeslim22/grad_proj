@@ -10,16 +10,17 @@ module.exports = {
     store: async function (req, res, next) {
         if (validator.validate(req.body.empUserName)) {
             const hashedPassword = await bcrypt.hash(req.body.empPassword, 10);
-
+            let role = Boolean(req.body.role) ? 1 : 0
+            console.log(role)
             console.log(req.body)
             const user = await User.create({
                 empUserName: req.body.empUserName,
                 empPassword: hashedPassword,
                 empName: req.body.empName,
                 empAddress: req.body.empAddress,
-                role: req.body.role,
-                firstName:req.body.firstName,
-                lastName:req.body.lastName
+                role: role,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName
 
             }).catch()
             if (!user) {
@@ -35,7 +36,7 @@ module.exports = {
     update: async function (req, res, next) {
 
         // const user = await User.findOne({where: {id: req.body.id} })
-       await User.update({ empUserName: req.body.empUserName, empName: req.body.empName, empAddress: req.body.empAddress, firstName: req.body.firstName, lastName: req.body.lastName }, {
+        await User.update({ empUserName: req.body.empUserName, empName: req.body.empName, empAddress: req.body.empAddress, firstName: req.body.firstName, lastName: req.body.lastName }, {
             where: {
                 id: req.body.id
             }

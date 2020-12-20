@@ -4,7 +4,7 @@ const User = require("../models/employees");
 const Invoice = require("../models/invoice");
 const Sequelize = require('sequelize');
 const sequelize = require("../database/connection");
-const { Transaction,Op } = require("sequelize");
+const { Transaction, Op } = require("sequelize");
 module.exports = {
     index: async function (req, res, next) {
 
@@ -60,23 +60,25 @@ module.exports = {
             invoicesInOrder.push(row.total)
         })
         const carNo = await Car.count();
+        console.log("cars nummmberrrrrr ")
+        console.log(carNo)
         var d = new Date();
         d.setDate(d.getDate() - 7);
-        const parkingVisits =await  CarTransaction.count({
+        const parkingVisits = await CarTransaction.count({
             where: {
                 transactionType: 0,
-                transaction_time: {[Op.gt]:d}
+                transaction_time: { [Op.gt]: d }
             }
         })
 
-        const revenue =await Invoice.findAll({
+        const revenue = await Invoice.findAll({
             attributes: [[sequelize.fn('SUM', sequelize.col('invoice_amount')), "total"]],
         })
         statistics.transactions = result;
         statistics.invoices = invoicesInOrder;
-        statistics.parkingVisits=parkingVisits;
-        statistics.carsNo=carNo;
-        statistics.revenue=revenue[0].dataValues.total;
+        statistics.parkingVisits = parkingVisits;
+        statistics.carsNo = carNo;
+        statistics.revenue = revenue[0].dataValues.total;
 
         if (!transactions_statistics) {
             return res.json(false)

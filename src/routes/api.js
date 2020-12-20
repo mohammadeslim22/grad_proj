@@ -21,6 +21,7 @@ resource = (controller, router,resource) => {
 router.post(`/users/login`,AuthController.login);
 router.post(`/settings`, SettingController.update);
 router.get(`/statistics`,StatisticsController.index);
+router.get(`/transactions/timeline`,TransactionsController.timeline);
 resource(CarController, router,'cars');
 resource(UsersController, router,'users');
 resource(TransactionsController, router,'transactions');
