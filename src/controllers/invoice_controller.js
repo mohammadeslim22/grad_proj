@@ -4,7 +4,7 @@ const InvoiceResource = require("../resources/invoice_resource");
 
 module.exports = {
     store: async function (req, res, next) {
-        console.log(req.body)
+      
         const invoice = await Invoice.create({
             carNumber: req.body.carNumber,
             invoiceAmount: req.body.invoiceAmount,
