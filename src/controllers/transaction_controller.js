@@ -112,7 +112,7 @@ module.exports = {
                         }
                         console.log(settings.value)
                         console.log(hoursDifference)
-                        let amount = parseInt(hoursDifference) * parseFloat(settings.value)
+                        //let amount = parseInt(hoursDifference) * parseFloat(settings.value)
                         Invoice.create({
                             carNumber: req.body.carNumber,
                             invoiceAmount: amount,
