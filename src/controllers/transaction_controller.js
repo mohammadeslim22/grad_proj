@@ -55,8 +55,8 @@ module.exports = {
                         return res.json(transaction);
                     } else {
                         // car not fount , and leaving transaction !!
-                        
-                        return res.json("car_not_registered",400)
+
+                        return res.json("car_not_registered", 400)
                     }
                 } catch (err) { }
             } else {
@@ -71,7 +71,7 @@ module.exports = {
                 if (parseInt(req.body.transactionType) == 0) {
                     // car wants to enter and last transaction is entering !@!
                     if (parseInt(entryTransaction.transactionType) == 0) {
-                        return res.json("this car is inside",400)
+                        return res.json("this car is inside", 400)
                     } else {
                         // car wants to enter and last transaction is leaving
                         const transaction = await CarTransaction.create({
@@ -101,7 +101,15 @@ module.exports = {
                         console.log(entryTransaction.transaction_time)
                         console.log(transaction.transaction_time)
                         var difference = transaction.transaction_time - entryTransaction.transaction_time;
+
+
                         var hoursDifference = Math.floor(difference / 1000 / 60 / 60);
+                        let amount = 0;
+                        if (hoursDifference < 1) {
+                            amount = parseFloat(settings.value)
+                        } else {
+                            amount = parseInt(hoursDifference) * parseFloat(settings.value)
+                        }
                         console.log(settings.value)
                         console.log(hoursDifference)
                         let amount = parseInt(hoursDifference) * parseFloat(settings.value)
@@ -119,7 +127,7 @@ module.exports = {
                     } else {
                         // car wants to leave and last transaction is leaving !@! 
 
-                        return res.json("how the hell this is happening",400)
+                        return res.json("how the hell this is happening", 400)
                     }
                 }
             }
