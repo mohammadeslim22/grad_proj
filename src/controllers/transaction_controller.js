@@ -7,11 +7,10 @@ const Car = require("../models/cars");
 
 
 const TransactionResource = require("../resources/transaction_resource");
-const e = require("cors");
-catchFunc = function () {
+const catchFunc = function () {
     console.log("yoyo")
-},
-    settings = {}
+};
+  let  settings = {}
 
 module.exports = {
 
@@ -103,12 +102,12 @@ module.exports = {
                         var difference = transaction.transaction_time - entryTransaction.transaction_time;
 
 
-                        var hoursDifference = Math.floor(difference / 1000 / 60 / 60);
+                        let hoursDifference = Math.floor(difference / 1000 / 60 / 60);
                         let amount = 0;
                         if (hoursDifference < 1) {
                             amount = parseFloat(settings.value)
                         } else {
-                            amount = parseInt(hoursDifference) * parseFloat(settings.value)
+                            amount = hoursDifference * parseFloat(settings.value)
                         }
                         console.log(settings.value)
                         console.log(hoursDifference)
@@ -155,9 +154,9 @@ module.exports = {
         try {
             const { sortBy, sortDesc, page, itemsPerPage } = req.query
             console.log(itemsPerPage)
-            filter = {}
-            limit = "";
-            offset = ""
+           let filter = {}
+           let limit = 0;
+           let  offset = 0
             let carTransactions
             if (parseInt(itemsPerPage) > 0) {
                 filter = {
@@ -178,6 +177,12 @@ module.exports = {
                     order: [['createdAt', 'DESC']]
                 })
             }
+            // if(!itemsPerPage){
+            //     carTransactions = await CarTransaction.findAndCountAll({
+
+            //         order: [['createdAt', 'DESC']]
+            //     })
+            // }
             if (!carTransactions) {
 
             } else {

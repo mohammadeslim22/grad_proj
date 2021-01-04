@@ -6,7 +6,7 @@ module.exports = {
     },
     update: async function (req, res, next) {
         console.log(req.body)
-        for (i = 0; i < 4; i++) {
+        for (let i = 0; i < 4; i++) {
             Settings.update({ value: req.body[i].value }, {
                 where: {
                     id: req.body[i].id

@@ -34,7 +34,7 @@ module.exports = {
     index: async function (req, res, next) {
         try {
             const { sortBy, sortDesc, page, itemsPerPage } = req.query
-            filter = {}
+           let filter = {}
             let limit;
             let offset;
             let invoices

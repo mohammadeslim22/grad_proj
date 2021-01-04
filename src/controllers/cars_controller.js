@@ -4,7 +4,9 @@ const CarResource = require("../resources/car_resource");
 const CarResourceLastEntry = require("../resources/car_resourc_last_entry");
 const Invoice = require("../models/invoice");
 
+// @ts-ignore
 const Sequelize = require('sequelize')
+// @ts-ignore
 function WithoutTime() {
     var date = new Date(Date.now());
     date.setHours(0, 0, 0, 0);
@@ -13,6 +15,7 @@ function WithoutTime() {
 }
 
 module.exports = {
+    // @ts-ignore
     store: async function (req, res, next) {
         console.log(req.body)
         const car = await Car.create({
@@ -26,33 +29,46 @@ module.exports = {
         return res.json(car);
 
     },
+    // @ts-ignore
     update: function (req, res, next) {
 
     },
+    // @ts-ignore
     delete: function (req, res, next) {
 
     },
+    // @ts-ignore
     show: function (req, res, next) {
 
 
     },
 
+    // @ts-ignore
     index: async function (req, res, next) {
         try {
 
+            // @ts-ignore
             const { sortBy, sortDesc, page, itemsPerPage, exist } = req.query
-            const count = await Car.count()
+            // const count = await Car.count()
+            // @ts-ignore
+            const count = await sequelize.query("select count(*) as count from cars join cars_transactions t on cars.id = t.car_id where t.id in ( select Max(id) from cars_transactions  GROUP by car_id) AND t.transaction_type=0 ")
+
+            console.log(count)
             if (parseInt(exist) == 0) {
                 console.log(itemsPerPage)
-                limit = 0;
-                offset = 0;
+                let limit = 0;
+                let offset = 0;
+                let rowCars = [];
                 if (parseInt(itemsPerPage) > 0) {
                     limit = parseInt(itemsPerPage);
                     offset = (parseInt(page) - 1) * parseInt(itemsPerPage);
+
+                    // @ts-ignore
+                    rowCars = await sequelize.query("select *  from cars join cars_transactions t on cars.id = t.car_id where t.id in ( select Max(id) from cars_transactions  GROUP by car_id) AND t.transaction_type=0 limit " + `${offset}` + " ," + `${limit}`)
+                } else {
+                    // @ts-ignore
+                    rowCars = await sequelize.query("select * from cars join cars_transactions t on cars.id = t.car_id where t.id in ( select Max(id) from cars_transactions  GROUP by car_id) AND t.transaction_type=0")
                 }
-                //let rowCars = await sequelize.query("select * from cars join cars_transactions on cars.id = cars_transactions.car_id where cars_transactions.transaction_time > CURDATE() AND cars_transactions.transaction_type=0 limit " + `${offset}` + " ," + `${limit}`)
-                let rowCars = await sequelize.query("select * from cars join cars_transactions t on cars.id = t.car_id where t.id in ( select Max(id) from cars_transactions  GROUP by car_id) AND t.transaction_type=0 limit " + `${offset}` + " ," + `${limit}`)
-                // const cars = await Car.findAll()
                 console.log(rowCars[1])
 
                 rowCars[1].count = count
@@ -64,36 +80,60 @@ module.exports = {
 
 
             } else {
+                let countRegistered = await Car.count()
                 console.log(itemsPerPage)
-                limit = 0;
-                offset = 0
+                let limit = 0;
+                let offset = 0
+                let cars = []
                 if (parseInt(itemsPerPage) > 0) {
                     //     filter = {
                     // separated:true,
                     limit = parseInt(itemsPerPage);
                     offset = (parseInt(page) - 1) * parseInt(itemsPerPage);
-                    // };
-                }
-                let cars = await CarTransaction.findAll({
-                    limit: limit,
-                    offset: offset,
-                    group: ["carId"],
-                    attributes: [[sequelize.fn('MAX', sequelize.col('transaction_time')), "time"], "carId"],
-                    include: [{
-                        model: Car,
-                        group: ["id"],
-                        include:
-                        {
-                            model: Invoice,
-                            group: ["carId"],
-                            separate: true,
-                            attributes: [[sequelize.fn('SUM', sequelize.col('invoice_amount')), "sumInvoiceAmount"]],
-                        }
-                    }],
-                })
-                // const count = await Car.count()
-                cars.count = count
-                console.log(cars)
+
+                    cars = await CarTransaction.findAll({
+                        limit: limit,
+                        offset: offset,
+                        group: ["carId"],
+                        // @ts-ignore
+                        attributes: [[sequelize.fn('MAX', sequelize.col('transaction_time')), "time"], "carId"],
+                        include: [{
+                            model: Car,
+                            group: ["id"],
+                            include:
+                            {
+                                model: Invoice,
+                                group: ["carId"],
+                                separate: true,
+                                // @ts-ignore
+                                attributes: [[sequelize.fn('SUM', sequelize.col('invoice_amount')), "sumInvoiceAmount"]],
+                            }
+                        }],
+                    })
+                    cars.count = countRegistered
+                } else {
+                    cars = await CarTransaction.findAll({
+                        group: ["carId"],
+                        // @ts-ignore
+                        attributes: [[sequelize.fn('MAX', sequelize.col('transaction_time')), "time"], "carId"],
+                        include: [{
+                            model: Car,
+                            group: ["id"],
+                            include:
+                            {
+                                model: Invoice,
+                                group: ["carId"],
+                                separate: true,
+                                // @ts-ignore
+                                attributes: [[sequelize.fn('SUM', sequelize.col('invoice_amount')), "sumInvoiceAmount"]],
+                            }
+                        }],
+                    })
+                    cars.count = countRegistered
+                } 
+                console.log(cars.countRegistered)
+                // cars.count = count
+
                 if (!cars) {
 
                 } else {
